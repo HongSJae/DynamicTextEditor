@@ -20,38 +20,40 @@ extension Int {
 }
 
 extension Font {
-    /// SwiftUI Font → UILabel을 통해 UIFont 추출
     @MainActor
     func toUIFont() -> UIFont {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .body) // 기본값
-
-        let hosting = UIHostingController(rootView: Text(" ").font(self))
-        hosting.loadViewIfNeeded()
+        // SwiftUI Font를 실제로 렌더링해서 정보 추출
+        let uiFont = UIFont.systemFont(ofSize: 17) // 기본값
         
-        if let labelInside = findLabel(in: hosting.view) {
-            print("findLabel:", labelInside.font.fontName)
-            return labelInside.font
-        }
-        print("default:", label.font.fontName)
-        return label.font
+        // UIHostingController를 이용한 트릭
+        let hostingController = UIHostingController(rootView:
+            Text("Sample")
+                .font(self)
+                .hidden()
+        )
+        
+        // 뷰를 렌더링하고 폰트 정보 추출
+        hostingController.view.layoutIfNeeded()
+        
+        return extractFontFromView(hostingController.view) ?? uiFont
     }
-
+    
     @MainActor
-    /// UILabel 탐색 (View hierarchy 순회)
-    private func findLabel(in view: UIView) -> UILabel? {
+    private func extractFontFromView(_ view: UIView) -> UIFont? {
+        // 재귀적으로 UILabel 찾아서 폰트 추출
         if let label = view as? UILabel {
-            return label
+            return label.font
         }
+        
         for subview in view.subviews {
-            if let found = findLabel(in: subview) {
-                return found
+            if let font = extractFontFromView(subview) {
+                return font
             }
         }
+        
         return nil
     }
 }
-
 
 extension View {
     nonisolated public func font(uiFont: UIFont) -> some View {
