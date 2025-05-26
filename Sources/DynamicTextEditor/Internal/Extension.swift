@@ -30,9 +30,10 @@ extension Font {
         hosting.loadViewIfNeeded()
         
         if let labelInside = findLabel(in: hosting.view) {
+            print(labelInside.font.fontName)
             return labelInside.font
         }
-
+        print(label.font.fontName)
         return label.font
     }
 
