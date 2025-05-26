@@ -2,14 +2,21 @@ import SwiftUI
 import UIKit
 
 public struct DynamicHeightTextEditor: View {
+    @Environment(\.font) var font
     private let text: Binding<String>
     private let lineSpace: CGFloat
     private let placeholder: String
 
     // MARK: Initializer에서 계산을 통해 결정되는 프로퍼티
     private let maxLineCount: CGFloat
-    private let uiFont: UIFont
-    private let maxHeight: CGFloat
+    private var uiFont: UIFont {
+        self.font?.toUIFont() ?? defaultFont
+    }
+    private var maxHeight: CGFloat {
+        maxLineCount * (uiFont.lineHeight + lineSpace)
+    }
+
+    private let defaultFont: UIFont = .systemFont(ofSize: 14)
 
     @State private var currentTextEditorHeight: CGFloat = 0
     @State private var maxTextWidth: CGFloat = 0
@@ -29,8 +36,6 @@ public struct DynamicHeightTextEditor: View {
 
         // MARK: Calculated
         self.maxLineCount = (maxLine < 1 ? 1 : maxLine)
-        self.uiFont = .systemFont(ofSize: 14)
-        self.maxHeight = (maxLineCount * (uiFont.lineHeight + lineSpace))
 
         UITextView.appearance().textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) // 이 부분 수정
     }
