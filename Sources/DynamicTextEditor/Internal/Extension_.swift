@@ -34,8 +34,12 @@ extension Font {
         
         // 뷰를 렌더링하고 폰트 정보 추출
         hostingController.view.layoutIfNeeded()
-        
-        return extractFontFromView(hostingController.view) ?? uiFont
+        if let res = extractFontFromView(hostingController.view)  {
+            print("custom: \(res.fontName)")
+            return res
+        }
+        print("default")
+        return uiFont
     }
     
     @MainActor
