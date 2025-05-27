@@ -42,7 +42,7 @@ public extension DynamicTextEditor {
     /// - Example:
     /// ```swift
     /// DynamicTextEditor("입력", text: $text)
-    ///     .setForegroundColor(.gray)
+    ///     .setTextColor(.gray)
     /// ```
     func setTextColor(_ color: Color) -> Self {
         var view = self
@@ -50,6 +50,16 @@ public extension DynamicTextEditor {
         return view
     }
 
+    /// Placeholder 색상을 설정합니다.
+    ///
+    /// - Parameter color: 적용할 전경색(`Color`)
+    /// - Returns: 설정된 Placeholder 색상을 적용한 새로운 `DynamicTextEditor` 뷰
+    ///
+    /// - Example:
+    /// ```swift
+    /// DynamicTextEditor("입력", text: $text)
+    ///     .setPlaceholderColor(.black)
+    /// ```
     func setPlaceholderColor(_ color: Color) -> Self {
         var view = self
         view.placeholderColor = color
