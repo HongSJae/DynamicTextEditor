@@ -21,8 +21,13 @@
 
 ## 📦 Installation
 
-Tuist 기반 프로젝트에 `DynamicTextEditor` 모듈을 추가하거나, Swift Package로 구성해 사용할 수 있습니다.
+### Swift Package Manager (SPM)
 
+```swift
+dependencies: [
+    .package(url: "https://github.com/your-id/DynamicTextEditor.git", from: "1.0.0")
+]
+```
 ---
 
 ## 🚀 Usage
