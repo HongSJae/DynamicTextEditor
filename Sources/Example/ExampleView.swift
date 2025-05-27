@@ -13,8 +13,7 @@ struct ExampleView: View {
     var body: some View {
         DynamicTextEditor(
             "Placehoder"
-            text: $text,
-            lineSpace: 2
+            text: $text
         )
         .setFont(uiFont: uifont)
     }
