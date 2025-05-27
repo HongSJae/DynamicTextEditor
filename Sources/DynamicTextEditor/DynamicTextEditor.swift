@@ -1,122 +1,70 @@
 import SwiftUI
 import UIKit
 
-public struct DynamicHeightTextEditor: View {
-    @Environment(\.font) var font
+/// 사용자의 입력에 따라 높이가 자동으로 조절되는 TextEditor입니다.
+///
+/// SwiftUI의 `TextEditor`를 기반으로 하며, 최대 줄 수를 설정할 수 있고,
+/// 플레이스홀더도 지원합니다.
+///
+/// - Features:
+///   - 동적 높이 조절
+///   - 플레이스홀더 지원
+///   - 최대 줄 수 제한
+///
+/// - Example:
+/// ```swift
+/// @State private var text: String = ""
+///
+/// var body: some View {
+///     DynamicTextEditor("내용을 입력하세요", text: $text)
+/// }
+/// ```
+public struct DynamicTextEditor: View {
+    
+    /// TextEditor의 폰트입니다. 기본값은 `.systemFont(ofSize: 14)`입니다.
+    var uiFont: UIFont = .systemFont(ofSize: 14)
+
+    /// 표시할 최대 줄 수입니다. 기본값은 `5`이며, `1`보다 작게 설정할 경우 `1`로 처리됩니다.
+    var maxLine: CGFloat = 5
+
+    /// 텍스트의 Foreground Color입니다. 기본값은 `.black`입니다.
+    var foregroundColor: Color = .black
+
     private let text: Binding<String>
-    private let lineSpace: CGFloat
     private let placeholder: String
 
-    // MARK: Initializer에서 계산을 통해 결정되는 프로퍼티
-    private let maxLineCount: CGFloat
-    private var uiFont: UIFont {
-        self.font?.toUIFont() ?? defaultFont
-    }
     private var maxHeight: CGFloat {
-        maxLineCount * (uiFont.lineHeight + lineSpace)
+        maxLineCount * uiFont.lineHeight
     }
 
-    private let defaultFont: UIFont = .systemFont(ofSize: 14)
+    private var maxLineCount: CGFloat {
+        maxLine < 1 ? 1 : maxLine
+    }
 
     @State private var currentTextEditorHeight: CGFloat = 0
     @State private var maxTextWidth: CGFloat = 0
 
-    // MARK: - Initializer
-    /// 파라미터 font = .body, lineSpace = 2 기본값 지정
+    /// `DynamicTextEditor` 생성자
+    ///
+    /// - Parameters:
+    ///   - placeholder: 비어 있을 때 표시할 플레이스홀더 텍스트
+    ///   - text: 사용자 입력을 바인딩할 문자열
     public init (
-        text: Binding<String>,
-        lineSpace: CGFloat = 2,
-        maxLine: CGFloat,
-        placeholder: String
+        _ placeholder: String,
+        text: Binding<String>
     ) {
-        // MARK: Required
         self.text = text
-        self.lineSpace = lineSpace
         self.placeholder = placeholder
 
-        // MARK: Calculated
-        self.maxLineCount = (maxLine < 1 ? 1 : maxLine)
-
-        UITextView.appearance().textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) // 이 부분 수정
+        // 기본 TextView 인셋 제거
+        UITextView.appearance().textContainerInset = .zero
     }
 
-    // MARK: - View
     public var body: some View {
-        enabledEditor
-    }
-}
-
-// MARK: - Calculate Line
-private extension DynamicHeightTextEditor {
-    /// 현재 text에 개행문자에 의한 라인 갯수가 몇 줄인지 계산합니다.
-    var newLineCount: CGFloat {
-        let currentText: String = text.wrappedValue
-        let currentLineCount: Int = currentText
-            .filter { $0 == "\n" }
-            .count + 1
-        let newLineCount: CGFloat = currentLineCount > maxLineCount.asInt
-        ? maxLineCount
-        : currentLineCount.asFloat
-
-        return newLineCount
-    }
-
-    /// 개행 문자 기준으로 텍스트를 분리하고, 각 텍스트 길이가 Editor 길이를 초과하는지 체크하여 필요한 줄바꿈 수를 계산합니다.
-    var autoLineCount: CGFloat {
-        var counter: Int = 0
-        text
-            .wrappedValue
-            .components(separatedBy: "\n")
-            .forEach { line in
-                let label = UILabel()
-                label.font = uiFont
-                label.text = line
-                label.sizeToFit()
-                let currentTextWidth = label.frame.width
-                counter += (currentTextWidth / maxTextWidth).asInt
-            }
-
-        return counter.asFloat
-    }
-}
-
-// MARK: - Calculate Width / Height
-private extension DynamicHeightTextEditor {
-    /// textEditor 시작 높이를 설정합니다.
-    func setTextEditorStartHeight() {
-        currentTextEditorHeight = uiFont.lineHeight
-    }
-
-    /// text가 가질 수 있는 최대 길이를 설정합니다.
-    func setMaxTextWidth(proxy: GeometryProxy) {
-        maxTextWidth = proxy.size.width
-    }
-
-    /// line count를 통해 textEditor 현재 높이를 계산해서 업데이트합니다.
-    func updateTextEditorCurrentHeight() {
-        // 총 라인 갯수
-        let totalLineCount = newLineCount + autoLineCount
-
-        // 총 라인 갯수가 maxCount 이상이면 최대 높이로 고정
-        guard totalLineCount < maxLineCount else {
-            currentTextEditorHeight = maxHeight
-            return
-        }
-
-        // 라인 갯수로 계산한 현재 Editor 높이
-        let currentHeight = (totalLineCount * (uiFont.lineHeight + lineSpace)) - lineSpace
-
-        // View의 높이를 결정하는 State 변수에 계산된 현재 높이를 할당하여 뷰에 반영
-        currentTextEditorHeight = currentHeight
-    }
-}
-
-// MARK: - Editor View
-private extension DynamicHeightTextEditor {
-    var enabledEditor: some View {
         GeometryReader { proxy in
             ZStack(alignment: .topLeading) {
                 Text(placeholder)
+                    .foregroundStyle(foregroundColor)
                     .font(uiFont: uiFont)
                     .padding(.leading, 5)
                     .opacity(text.wrappedValue.isEmpty ? 1 : 0)
@@ -126,6 +74,7 @@ private extension DynamicHeightTextEditor {
                     .autocorrectionDisabled()
                     .autocapitalization(.none)
                     .scrollDisabled(newLineCount <= 1)
+                    .foregroundStyle(foregroundColor)
                     .font(uiFont: uiFont)
                     .frame(maxHeight: currentTextEditorHeight)
             }
@@ -138,5 +87,58 @@ private extension DynamicHeightTextEditor {
             }
         }
         .frame(maxHeight: currentTextEditorHeight)
+    }
+}
+
+// MARK: - 라인 계산 관련
+private extension DynamicTextEditor {
+    
+    /// 개행 문자 기반 줄 수 계산
+    var newLineCount: CGFloat {
+        let lineCount = text.wrappedValue.filter { $0 == "\n" }.count + 1
+        return lineCount > maxLineCount.asInt ? maxLineCount : lineCount.asFloat
+    }
+
+    /// 자동 줄바꿈 줄 수 계산 (텍스트 길이 기준)
+    var autoLineCount: CGFloat {
+        var counter: Int = 0
+        text
+            .wrappedValue
+            .components(separatedBy: "\n")
+            .forEach { line in
+                let label = UILabel()
+                label.font = uiFont
+                label.text = line
+                label.sizeToFit()
+                let width = label.frame.width
+                counter += (width / maxTextWidth).asInt
+            }
+
+        return counter.asFloat
+    }
+}
+
+// MARK: - 뷰 레이아웃 설정
+private extension DynamicTextEditor {
+    
+    /// 에디터 초기 높이 설정 (1줄)
+    func setTextEditorStartHeight() {
+        currentTextEditorHeight = uiFont.lineHeight
+    }
+
+    /// 사용 가능한 최대 텍스트 너비 설정
+    func setMaxTextWidth(proxy: GeometryProxy) {
+        maxTextWidth = proxy.size.width
+    }
+
+    /// 현재 텍스트 길이에 맞춰 에디터 높이 갱신
+    func updateTextEditorCurrentHeight() {
+        let totalLineCount = newLineCount + autoLineCount
+
+        if totalLineCount >= maxLineCount {
+            currentTextEditorHeight = maxHeight
+        } else {
+            currentTextEditorHeight = totalLineCount * uiFont.lineHeight
+        }
     }
 }

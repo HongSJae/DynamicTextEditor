@@ -11,11 +11,11 @@ struct ExampleView: View {
     @State var text: String = ""
 
     var body: some View {
-        DynamicHeightTextEditor(
+        DynamicTextEditor(
+            "Placehoder"
             text: $text,
-            lineSpace: 2,
-            maxLine: 5,
-            placeholder: "Placehoder"
+            lineSpace: 2
         )
+        .setFont(uiFont: uifont)
     }
 }
