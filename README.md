@@ -32,15 +32,52 @@ dependencies: [
 
 ## 🚀 Usage
 
+### 기본 예시
 ```swift
 import SwiftUI
+import DynamicTextEditor
 
-@State private var text: String = ""
+@State var text: String = ""
 
 var body: some View {
-    DynamicTextEditor("메시지를 입력하세요", text: $text)
+    DynamicTextEditor("내용을 입력해주세요.", text: $text)
 }
 ```
+
+<img src="https://github.com/HongSJae/DynamicTextEditor/blob/main/GIFs/Default_DynamicTextEditor.gif" width="300"/> 
+
+### 카카오톡 클론 코딩 예시
+```swift
+import SwiftUI
+import DynamicTextEditor
+
+@State var text: String = ""
+
+var body: some View {
+    ...
+    HStack(alignment: .bottom, spacing: 16) {
+        DynamicTextEditor(
+            "메시지 입력",
+            text: $text
+        )
+        .setFont(uiFont: .systemFont(ofSize: 16))
+        .setMaxLineCount(8)
+        .setTextColor(.black)
+        .setPlaceholderColor(.gray)
+        .frame(minHeight: 24)
+
+        emojiButton()
+    }
+    .padding(.vertical, 6)
+    .padding(.horizontal, 8)
+    .background(Color.textField_BG)
+    .cornerRadius(20)
+    ...
+}
+```
+
+<img src="https://github.com/HongSJae/DynamicTextEditor/blob/main/GIFs/DynamicTextEditor_clone_kakaotalk.gif" width="300"/> 
+
 ## 🎛 Modifier API
 
 DynamicTextEditor는 SwiftUI의 Modifier 스타일 API로 다양한 속성을 설정할 수 있습니다.
