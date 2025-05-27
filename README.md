@@ -99,13 +99,22 @@ DynamicTextEditor("입력", text: $text)
     .setMaxLineCount(3)
 ````
 
-### 🎨 `setForegroundColor(_:)`
+### 🎨 `setTextColor(_:)`
 
-텍스트 색상을 설정합니다. 기본값은 .black입니다.
+텍스트 색상을 설정합니다. 기본값은 '.black'입니다.
 
 ```swift
 DynamicTextEditor("입력", text: $text)
-    .setForegroundColor(.gray)
+    .setTextColor(.gray)
+```
+
+### 👤 `setPlcaeholderColor(_:)`
+
+텍스트 색상을 설정합니다. 기본값은 '.gray'입니다.
+
+```swift
+DynamicTextEditor("입력", text: $text)
+    .setPlaceholderColor(.black)
 ```
 
 🧪 커스텀 예시
@@ -114,5 +123,6 @@ DynamicTextEditor("입력", text: $text)
 DynamicTextEditor("댓글을 입력하세요", text: $text)
     .setFont(uiFont: .systemFont(ofSize: 14))
     .setMaxLineCount(4)
-    .setForegroundColor(.blue)
+    .setTextColor(.blue)
+    .setPlaceholder(.red)
 ```
