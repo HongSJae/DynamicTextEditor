@@ -25,7 +25,7 @@
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/your-id/DynamicTextEditor.git", from: "1.0.0")
+    .package(url: "https://github.com/your-id/DynamicTextEditor.git", branch: "main")
 ]
 ```
 ---
