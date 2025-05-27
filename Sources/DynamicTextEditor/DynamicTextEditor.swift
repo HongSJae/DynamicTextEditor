@@ -30,6 +30,9 @@ public struct DynamicTextEditor: View {
     /// 텍스트의 Foreground Color입니다. 기본값은 `.black`입니다.
     var foregroundColor: Color = .black
 
+    /// 텍스트의 Placehoder Color입니다. 기본값은 `.gray`입니다.
+    var placeholderColor: Color = .gray
+
     private let text: Binding<String>
     private let placeholder: String
 
@@ -64,7 +67,7 @@ public struct DynamicTextEditor: View {
         GeometryReader { proxy in
             ZStack(alignment: .topLeading) {
                 Text(placeholder)
-                    .foregroundStyle(foregroundColor)
+                    .foregroundStyle(placeholderColor)
                     .font(uiFont: uiFont)
                     .padding(.leading, 5)
                     .opacity(text.wrappedValue.isEmpty ? 1 : 0)

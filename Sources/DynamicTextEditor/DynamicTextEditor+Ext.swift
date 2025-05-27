@@ -44,9 +44,15 @@ public extension DynamicTextEditor {
     /// DynamicTextEditor("입력", text: $text)
     ///     .setForegroundColor(.gray)
     /// ```
-    func setForegroundColor(_ color: Color) -> Self {
+    func setTextColor(_ color: Color) -> Self {
         var view = self
         view.foregroundColor = color
+        return view
+    }
+
+    func setPlaceholderColor(_ color: Color) -> Self {
+        var view = self
+        view.placeholderColor = color
         return view
     }
 }
