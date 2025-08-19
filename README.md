@@ -44,7 +44,7 @@ var body: some View {
 }
 ```
 
-<img src="https://github.com/HongSJae/DynamicTextEditor/blob/main/GIFs/Default_DynamicTextEditor.gif" width="300"/> 
+<img src="GIFs/Default_DynamicTextEditor.gif" width="300"/> 
 
 ### 카카오톡 클론 코딩 예시
 ```swift
@@ -76,7 +76,7 @@ var body: some View {
 }
 ```
 
-<img src="https://github.com/HongSJae/DynamicTextEditor/blob/main/GIFs/DynamicTextEditor_clone_kakaotalk.gif" width="300"/> 
+<img src="GIFs/DynamicTextEditor_clone_kakaotalk.gif" width="300"/> 
 
 ## 🎛 Modifier API
 
