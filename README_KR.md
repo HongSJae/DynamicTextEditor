@@ -1,27 +1,24 @@
 # DynamicTextEditor
 
-`DynamicTextEditor` is a SwiftUI-based `TextEditor` component that automatically adjusts its height according to the user’s input.  
-
-> Similar to the chat input field in KakaoTalk, where the text field dynamically grows with the number of lines.
-
----
+`DynamicTextEditor`는 사용자의 입력에 따라 높이가 자동으로 조절되는 SwiftUI 기반의 TextEditor Component입니다.
+  
+> 카카오톡 앱의 채팅화면에 TextField와 같이 동적으로 Height가 변하는 TextEditor
 
 ## Language
 🇰🇷 [한국어 README](README_KR.md) | 🇺🇸 [English README](README.md) | 🇯🇵 [日本語 README](README_JP.md)
 
 ## ✨ Features
 
-- ✅ Set maximum line count  
-- ✅ Support for placeholder text  
-- ✅ Automatically resizing `TextEditor`  
-- ✅ Custom font support  
-
+- ✅ 최대 줄 수 설정 가능
+- ✅ placeholder 텍스트 지원
+- ✅ 동적으로 height가 변하는 TextEditor
+- ✅ Custom Font 적용 가능
 ---
 
 ## 🛠 Requirements
 
-- iOS 15+  
-- SwiftUI  
+- iOS 15+
+- SwiftUI
 
 ---
 
@@ -34,12 +31,11 @@ dependencies: [
     .package(url: "https://github.com/winwx/DynamicTextEditor.git", branch: "main")
 ]
 ```
-
 ---
 
 ## 🚀 Usage
 
-### Basic Example
+### 기본 예시
 ```swift
 import SwiftUI
 import DynamicTextEditor
@@ -47,13 +43,13 @@ import DynamicTextEditor
 @State var text: String = ""
 
 var body: some View {
-    DynamicTextEditor("Enter your text...", text: $text)
+    DynamicTextEditor("내용을 입력해주세요.", text: $text)
 }
 ```
 
-<img src="GIFs/Default_DynamicTextEditor.gif" width="300"/>  
+<img src="GIFs/Default_DynamicTextEditor.gif" width="300"/> 
 
-### KakaoTalk Clone Example
+### 카카오톡 클론 코딩 예시
 ```swift
 import SwiftUI
 import DynamicTextEditor
@@ -64,7 +60,7 @@ var body: some View {
     ...
     HStack(alignment: .bottom, spacing: 16) {
         DynamicTextEditor(
-            "Type a message",
+            "메시지 입력",
             text: $text
         )
         .setFont(uiFont: .systemFont(ofSize: 16))
@@ -83,58 +79,53 @@ var body: some View {
 }
 ```
 
-<img src="GIFs/DynamicTextEditor_clone_kakaotalk.gif" width="300"/>  
-
----
+<img src="GIFs/DynamicTextEditor_clone_kakaotalk.gif" width="300"/> 
 
 ## 🎛 Modifier API
 
-DynamicTextEditor provides a SwiftUI-style modifier API to customize its behavior and appearance.  
-
+DynamicTextEditor는 SwiftUI의 Modifier 스타일 API로 다양한 속성을 설정할 수 있습니다.
 ### 🔤 `setFont(uiFont:)`
 
-Sets the font using `UIFont`.
+사용할 UIFont를 설정합니다.
 
 ```swift
-DynamicTextEditor("Input", text: $text)
+DynamicTextEditor("입력", text: $text)
     .setFont(uiFont: .systemFont(ofSize: 16, weight: .medium))
 ```
 
 ### 📏 `setMaxLineCount(_:)`
 
-Sets the maximum number of lines. Default is **5**.
+최대 줄 수를 설정합니다. 기본값은 5입니다.
 
 ```swift
-DynamicTextEditor("Input", text: $text)
+DynamicTextEditor("입력", text: $text)
     .setMaxLineCount(3)
-```
+````
 
 ### 🎨 `setTextColor(_:)`
 
-Sets the text color. Default is `.black`.
+텍스트 색상을 설정합니다. 기본값은 '.black'입니다.
 
 ```swift
-DynamicTextEditor("Input", text: $text)
+DynamicTextEditor("입력", text: $text)
     .setTextColor(.gray)
 ```
 
-### 👤 `setPlaceholderColor(_:)`
+### 👤 `setPlcaeholderColor(_:)`
 
-Sets the placeholder color. Default is `.gray`.
+텍스트 색상을 설정합니다. 기본값은 '.gray'입니다.
 
 ```swift
-DynamicTextEditor("Input", text: $text)
+DynamicTextEditor("입력", text: $text)
     .setPlaceholderColor(.black)
 ```
 
----
-
-🧪 Custom Example
+🧪 커스텀 예시
 
 ```swift
-DynamicTextEditor("Write a comment...", text: $text)
+DynamicTextEditor("댓글을 입력하세요", text: $text)
     .setFont(uiFont: .systemFont(ofSize: 14))
     .setMaxLineCount(4)
     .setTextColor(.blue)
-    .setPlaceholderColor(.red)
+    .setPlaceholder(.red)
 ```

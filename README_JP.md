@@ -1,31 +1,31 @@
 # DynamicTextEditor
 
-`DynamicTextEditor` is a SwiftUI-based `TextEditor` component that automatically adjusts its height according to the user’s input.  
+`DynamicTextEditor` は、ユーザーの入力に応じて自動的に高さが調整される SwiftUI ベースの `TextEditor` コンポーネントです。  
 
-> Similar to the chat input field in KakaoTalk, where the text field dynamically grows with the number of lines.
+> カカオトークのチャット入力欄のように、入力行数に合わせて動的に高さが変わります。
 
 ---
 
 ## Language
 🇰🇷 [한국어 README](README_KR.md) | 🇺🇸 [English README](README.md) | 🇯🇵 [日本語 README](README_JP.md)
 
-## ✨ Features
+## ✨ 特徴
 
-- ✅ Set maximum line count  
-- ✅ Support for placeholder text  
-- ✅ Automatically resizing `TextEditor`  
-- ✅ Custom font support  
+- ✅ 最大行数を設定可能  
+- ✅ プレースホルダーテキスト対応  
+- ✅ 自動で高さが変わる `TextEditor`  
+- ✅ カスタムフォント対応  
 
 ---
 
-## 🛠 Requirements
+## 🛠 必要条件
 
 - iOS 15+  
 - SwiftUI  
 
 ---
 
-## 📦 Installation
+## 📦 インストール
 
 ### Swift Package Manager (SPM)
 
@@ -37,9 +37,9 @@ dependencies: [
 
 ---
 
-## 🚀 Usage
+## 🚀 使用方法
 
-### Basic Example
+### 基本的な例
 ```swift
 import SwiftUI
 import DynamicTextEditor
@@ -47,13 +47,13 @@ import DynamicTextEditor
 @State var text: String = ""
 
 var body: some View {
-    DynamicTextEditor("Enter your text...", text: $text)
+    DynamicTextEditor("テキストを入力してください...", text: $text)
 }
 ```
 
 <img src="GIFs/Default_DynamicTextEditor.gif" width="300"/>  
 
-### KakaoTalk Clone Example
+### カカオトーク風クローン例
 ```swift
 import SwiftUI
 import DynamicTextEditor
@@ -64,7 +64,7 @@ var body: some View {
     ...
     HStack(alignment: .bottom, spacing: 16) {
         DynamicTextEditor(
-            "Type a message",
+            "メッセージを入力",
             text: $text
         )
         .setFont(uiFont: .systemFont(ofSize: 16))
@@ -87,52 +87,52 @@ var body: some View {
 
 ---
 
-## 🎛 Modifier API
+## 🎛 モディファイア API
 
-DynamicTextEditor provides a SwiftUI-style modifier API to customize its behavior and appearance.  
+DynamicTextEditor は、SwiftUI スタイルのモディファイア API を提供し、動作や見た目をカスタマイズできます。  
 
 ### 🔤 `setFont(uiFont:)`
 
-Sets the font using `UIFont`.
+`UIFont` を使ってフォントを設定します。
 
 ```swift
-DynamicTextEditor("Input", text: $text)
+DynamicTextEditor("入力", text: $text)
     .setFont(uiFont: .systemFont(ofSize: 16, weight: .medium))
 ```
 
 ### 📏 `setMaxLineCount(_:)`
 
-Sets the maximum number of lines. Default is **5**.
+最大行数を設定します。デフォルトは **5** です。
 
 ```swift
-DynamicTextEditor("Input", text: $text)
+DynamicTextEditor("入力", text: $text)
     .setMaxLineCount(3)
 ```
 
 ### 🎨 `setTextColor(_:)`
 
-Sets the text color. Default is `.black`.
+テキストの色を設定します。デフォルトは `.black` です。
 
 ```swift
-DynamicTextEditor("Input", text: $text)
+DynamicTextEditor("入力", text: $text)
     .setTextColor(.gray)
 ```
 
 ### 👤 `setPlaceholderColor(_:)`
 
-Sets the placeholder color. Default is `.gray`.
+プレースホルダーの色を設定します。デフォルトは `.gray` です。
 
 ```swift
-DynamicTextEditor("Input", text: $text)
+DynamicTextEditor("入力", text: $text)
     .setPlaceholderColor(.black)
 ```
 
 ---
 
-🧪 Custom Example
+🧪 カスタム例
 
 ```swift
-DynamicTextEditor("Write a comment...", text: $text)
+DynamicTextEditor("コメントを入力してください...", text: $text)
     .setFont(uiFont: .systemFont(ofSize: 14))
     .setMaxLineCount(4)
     .setTextColor(.blue)
